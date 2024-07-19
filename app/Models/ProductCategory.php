@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class ProductCategory extends Model
+{
+    use HasFactory;
+    protected $fillable = ['name','slug','is_active','description'];
+
+    public function products(){
+        return $this->hasMany(Product::class);
+
+
+        // assuming Product model has a foreign key 'product_category_id'  // Eloquent Relationship
+    }
+
+    
+}
