@@ -2,16 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PajakResource\Pages;
-use App\Filament\Resources\PajakResource\RelationManagers;
-use App\Models\Pajak;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Pajak;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\PajakResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\PajakResource\RelationManagers;
 
 class PajakResource extends Resource
 {
@@ -28,7 +32,17 @@ class PajakResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(50),
+
+                TextInput::make('rate')
+                    ->required()
+                    ->numeric()
+                    ->maxValue(100),
+
+                RichEditor::make('description')
+                ->columnSpanFull()
             ]);
     }
 
@@ -36,6 +50,17 @@ class PajakResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('rate')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('description')
+                    ->searchable()
+                    ->sortable()
                 //
             ])
             ->filters([

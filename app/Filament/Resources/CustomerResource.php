@@ -4,11 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomerResource\Pages;
 use App\Filament\Resources\CustomerResource\RelationManagers;
-use App\Models\customer;
+use App\Models\Customer;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,6 +25,16 @@ class CustomerResource extends Resource
     {
         return $form
             ->schema([
+                TextInput::make('name')
+                ->required()
+                ->maxLength(50),
+                TextInput::make('email')
+                ->email()
+                // ->unique()
+                ->maxLength(255),
+                TextInput::make('phone_number')
+                ->maxLength(20),
+
                 //
             ]);
     }
@@ -31,7 +43,16 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')
+                ->searchable()
+                ->sortable(),
+                TextColumn::make('email')
+                ->searchable()
+                ->sortable(),
+                TextColumn::make('phone_number')
+                ->searchable()
+                ->sortable(),
+                
             ])
             ->filters([
                 //

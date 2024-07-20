@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pajaks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->decimal('rate', 3, 2);
+            $table->decimal('rate', 3,0);
             $table->string('description')->nullable();
             $table->timestamps();
         });

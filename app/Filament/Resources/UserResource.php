@@ -6,7 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -20,24 +20,29 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+
                 TextInput::make('name')
                 ->required()
-                ->maxLength(50      ),
-
+                ->maxLength(50),
                 TextInput::make('email')
-                ->required()
-                ->unique(ignoreRecord:true),
-                DateTimePicker::make('email_verified_at')
-                ->label('Email Verified at'),
+                ->email()
+                ->unique()
+                ->maxLength(255),
                 TextInput::make('password')
+                ->required()
                 ->password()
-                ->required(),
+                ->minLength(6),
+                DatePicker::make('created_at')
+                ->format('Y-m-d'),
+                DatePicker::make('updated_at')
+                ->format('Y-m-d'),
+
 
             ]);
     }
@@ -47,7 +52,15 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                //
+                ->searchable()
+                ->sortable(),
+                TextColumn::make('email')
+                ->searchable()
+                ->sortable(),
+                TextColumn::make('created_at')
+                ->sortable(),
+                TextColumn::make('updated_at')
+                ->sortable(),
             ])
             ->filters([
                 //
