@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = ['customers_id','expiration','product_id','payment_term_id','user_id','grand_total','note','status'];
+    protected $fillable = ['customer_id','expiration','payment_term_id','user_id','grand_total','note','status'];
     public function customer(){
-        return $this->belongsTo(customer::class);
+        return $this->belongsTo(Customer::class);
          // assuming customer model has a foreign key 'customers_id'  // Eloquent Relationship
     }
 

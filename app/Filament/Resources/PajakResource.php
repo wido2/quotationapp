@@ -23,6 +23,7 @@ class PajakResource extends Resource
     protected static ?string $navigationLabel = 'Pajak';
     // protected static ?string $title = 'Custom Page Title';
 
+    protected static ?string $navigationGroup  ='Setting';
 
 
 
@@ -41,7 +42,7 @@ class PajakResource extends Resource
                     ->numeric()
                     ->maxValue(100),
 
-                RichEditor::make('description')
+                Textarea::make('description')
                 ->columnSpanFull()
             ]);
     }

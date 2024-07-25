@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
-
+    protected static ?string $navigationGroup  ='Customer';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -52,7 +52,7 @@ class CustomerResource extends Resource
                 TextColumn::make('phone_number')
                 ->searchable()
                 ->sortable(),
-                
+
             ])
             ->filters([
                 //

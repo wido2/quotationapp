@@ -18,6 +18,7 @@ use Filament\Tables\Columns\TextColumn;
 class PaymentTermResource extends Resource
 {
     protected static ?string $model = PaymentTerm::class;
+    protected static ?string $navigationGroup  ='Setting';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

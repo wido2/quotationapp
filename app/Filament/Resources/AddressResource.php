@@ -26,6 +26,7 @@ use App\Filament\Resources\AddressResource\RelationManagers;
 class AddressResource extends Resource
 {
     protected static ?string $model = Address::class;
+    protected static ?string $navigationGroup  ='Customer';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

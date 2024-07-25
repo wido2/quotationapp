@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customers_id')->constrained('customers')->references('id')->cascadeOnDelete();
+            $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->date('expiration');
-            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
+            // $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
             $table->foreignId('payment_term_id')->constrained('payment_terms')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->decimal('grand_total',12,0);

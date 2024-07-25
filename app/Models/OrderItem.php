@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class OrderItem extends Model
 {
     use HasFactory;
-    protected $fillable = ['order_id', 'product_id',
-    'quantity', 'unit_price', 'total_price',
-    'discount'];
+    protected $fillable = ['order_id', 'product_id', 'quantity', 'unit_price', 'total_price','uom_id',
+    'discount','pajak_id'];
     public function order(){
         return $this->belongsTo(Order::class);
          // assuming Order model has a foreign key 'order_id'  // Eloquent Relationship
@@ -27,6 +26,6 @@ class OrderItem extends Model
         return $this->belongsTo(Pajak::class);
          // assuming Pajak model has a foreign key 'pajak_id'  // Eloquent Relationship
     }
-    
+
 
 }

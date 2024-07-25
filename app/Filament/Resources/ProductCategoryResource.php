@@ -18,37 +18,24 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProductCategoryResource\Pages;
 use App\Filament\Resources\ProductCategoryResource\RelationManagers;
+use App\Http\Controllers\FormProductCategory;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\ToggleColumn;
 
 class ProductCategoryResource extends Resource
 {
     protected static ?string $model = ProductCategory::class;
+    protected static ?string $navigationGroup  ='Product';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(50)
-                    ->live(onBlur:true)
-                    ->afterStateUpdated(
-                        function (Set $set , $state){
-                            $set('slug', Str::slug($state));
-                        }
-                    ),
-                TextInput::make('slug')
-                    ->required()
-                    ->readOnly(),
-                RichEditor::make('description')
-                ->required()
-                ->columnSpanFull(),
-                Toggle::make('is_active')
-                    ->default(true),
-            ]);
+            ->schema(
+                FormProductCategory::getForm()
+            );
     }
 
     public static function table(Table $table): Table
@@ -66,6 +53,7 @@ class ProductCategoryResource extends Resource
                     ,
                 TextColumn::make('description')
                     ->searchable()
+                    ->limit(100)
                     ->sortable(),
                 //
             ])

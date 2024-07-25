@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class ProductCategory extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','slug','is_active','description'];
+    protected $fillable = [
+        'name',
+        'slug',
+        'is_active',
+        'description'
+        ];
 
     public function products(){
         return $this->hasMany(Product::class);
@@ -17,5 +22,5 @@ class ProductCategory extends Model
         // assuming Product model has a foreign key 'product_category_id'  // Eloquent Relationship
     }
 
-    
+
 }

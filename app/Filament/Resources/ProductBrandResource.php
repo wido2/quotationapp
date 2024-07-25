@@ -21,40 +21,22 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProductBrandResource\Pages;
 use App\Filament\Resources\ProductBrandResource\RelationManagers;
+use App\Http\Controllers\FormProductBrand;
+use Filament\Forms\Components\Textarea;
 
 class ProductBrandResource extends Resource
 {
     protected static ?string $model = ProductBrand::class;
+    protected static ?string $navigationGroup  ='Product';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                TextInput::make('name')
-                ->required()
-                ->live(onBlur:true)
-                ->afterStateUpdated(function (Set $set, $state) {
-                    $set('slug', Str::slug($state));
-                })
-                ->maxLength(255),
-                TextInput::make('slug')
-                ->required()
-                ->readOnly()
-                ->maxLength(255),
-                RichEditor::make('description')
-                ->required()
-                ->columnSpanFull(),
-                FileUpload::make('logo_path')
-                ->directory('product_brands')
-                ->disk('public')
-                ->required(),
-                Toggle::make('is_active')
-                ->label('Is Active?')
-                ->required()
-                ->default(true),
-            ]);
+            ->schema(
+                FormProductBrand::formProductBrand()
+            );
     }
 
     public static function table(Table $table): Table
@@ -71,7 +53,7 @@ class ProductBrandResource extends Resource
                 ->label('Active'),
                 ImageColumn::make('logo_path')
                     ->label('Logo')
-                    
+
                     ->width(50)
                     ->height(50),
             ])

@@ -4,7 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UomResource\Pages;
 use App\Filament\Resources\UomResource\RelationManagers;
-use App\Models\uom;
+use App\Http\Controllers\FormUom;
+use App\Models\Uom;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -18,20 +19,16 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class UomResource extends Resource
 {
     protected static ?string $model = Uom::class;
+    protected static ?string $navigationGroup  ='Product';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                TextInput::make('name')
-                ->required()
-                ->maxLength(50),
-                TextInput::make('description')
-                ->required(),
+        return $form->schema(
+            FormUom::formUom()
+        );
 
-            ]);
     }
 
     public static function table(Table $table): Table

@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_category_id')->constrained('product_categories')->cascadeOnDelete();
             $table->foreignId('product_brand_id')->constrained('product_brands')->cascadeOnDelete();
-            // $table->foreignId('uom_id')->constrained('uoms')->cascadeOnDelete();
+            $table->foreignId('uom_id')->constrained('uoms')->cascadeOnDelete();
             $table->string('name');
             $table->string('slug');
-
             $table->decimal('price', 10, 2);
             $table->longText('description');
-            $table->integer('quantity');
+            $table->integer('stock');
+            $table->foreignId('pajak_id')->constrained('pajaks')->cascadeOnDelete();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
