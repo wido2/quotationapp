@@ -71,10 +71,7 @@ class OrderResource extends Resource
                 ->preload()
                 ->searchable()
                 ->relationship('user','name'),
-                // TextInput::make('grand_total')
-                // ->required()
-                // ->numeric()
-                // ->minValue(0),
+            
 
                 ToggleButtons::make('status')
                 ->options([
@@ -105,6 +102,10 @@ class OrderResource extends Resource
                             ->afterStateUpdated(function (Get $get, Set $set) {
                                 $set('uom_id', Product::find($get('product_id'))->uom_id);
                             })
+                            ->afterStateUpdated(function (Get $get, Set $set) {
+                                $set('pajak_id', Product::find($get('product_id'))->pajak_id);
+                            })
+
                             ->afterStateUpdated(
 
                                 function (Set $set, $state){

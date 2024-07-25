@@ -17,6 +17,7 @@ class Product extends Model
         'description',
         'stock',
         'is_active',
+        'pajak_id',
         'uom_id'
     ];
     public function productBrand(){
