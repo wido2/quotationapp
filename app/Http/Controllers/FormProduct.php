@@ -53,10 +53,15 @@ class FormProduct extends Controller
         ->numeric()
         ->minValue(0)     ,
         TextInput::make('stock'),
+        Select::make('pajak_id')
+        ->relationship('pajak','name')
+        ->preload()
+        ->searchable()
+        ->required(),
         Textarea::make('description')
         ->required()
-        ->columnSpanFull()
-            ,
+        ->columnSpanFull(),
+
         Toggle::make('is_active')
             ->default(true)
             ->required(),

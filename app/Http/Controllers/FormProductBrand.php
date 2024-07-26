@@ -31,7 +31,7 @@ class FormProductBrand extends Controller
                 FileUpload::make('logo_path')
                 ->directory('product_brands')
                 ->disk('public')
-                ->required(),
+                ,
                 Toggle::make('is_active')
                 ->label('Is Active?')
                 ->required()

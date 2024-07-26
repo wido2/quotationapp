@@ -13,6 +13,10 @@ class Pajak extends Model
         return $this->hasMany(OrderItem::class);
          // assuming OrderItem model has a foreign key 'pajak_id'  // Eloquent Relationship
     }
+    public function products(){
+        return $this->hasMany(Product::class);
+         // assuming Product model has a foreign key 'pajak_id'  // Eloquent Relationship
+    }
 
 
 }

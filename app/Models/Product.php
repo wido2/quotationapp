@@ -31,6 +31,10 @@ class Product extends Model
          // assuming OrderItem model has a foreign key 'product_id'  // Eloquent Relationship
 
     }
+    public function pajak(){
+        return $this->belongsTo(Pajak::class);
+         // assuming Pajak model has a foreign key 'pajak_id'  // Eloquent Relationship
+    }
     public function Uom(){
         return $this->belongsTo(Uom::class,);
          // assuming Uom model has a foreign key 'uom_id'  // Eloquent Relationship

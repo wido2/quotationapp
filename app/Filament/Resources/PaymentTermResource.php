@@ -8,12 +8,13 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\PaymentTerm;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PaymentTermResource\Pages;
 use App\Filament\Resources\PaymentTermResource\RelationManagers;
-use Filament\Tables\Columns\TextColumn;
 
 class PaymentTermResource extends Resource
 {
@@ -33,6 +34,10 @@ class PaymentTermResource extends Resource
                 TextInput::make('description')
                 ->required()
                 ->maxLength(255      ),
+                Toggle::make('is_active')
+                ->label('Active ')
+                ->default(true)
+                
             ]);
     }
 
