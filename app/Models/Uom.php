@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Uom extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','description'];
+    protected $fillable = ['name','description','is_active'];
 
     public function orderItems(){
         return $this->hasMany(OrderItem::class);

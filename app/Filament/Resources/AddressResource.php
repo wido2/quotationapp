@@ -22,13 +22,14 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AddressResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AddressResource\RelationManagers;
+use Filament\Forms\Components\ToggleButtons;
 
 class AddressResource extends Resource
 {
     protected static ?string $model = Address::class;
     protected static ?string $navigationGroup  ='Customer';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-map';
 
     public static function form(Form $form): Form
     {
@@ -57,6 +58,25 @@ class AddressResource extends Resource
                 ->label('Zip Code')
                 ->maxLength(7)
                 ->required(),
+                ToggleButtons::make('type')
+                ->options([
+                    'Home' => 'Home',
+                    'Office' => 'Office',
+                    'Work' => 'Work',
+                ])
+                ->required()
+                ->default('Office')
+                ->icons([
+                    'Home' => 'heroicon-o-home',
+                    'Office' => 'heroicon-o-building-office',
+                    'Work' => 'heroicon-o-briefcase',
+                ])
+                ->colors([
+                    'Home' => 'primary',
+                    'Office' => 'success',
+                    'Work' => 'warning',
+                ])
+                ->inline(),
                 Toggle::make('is_default')
                 ->label('Is Default?')
                 ->required()

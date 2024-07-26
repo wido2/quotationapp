@@ -17,8 +17,12 @@ class Product extends Model
         'description',
         'stock',
         'is_active',
+        'product_img',
         'pajak_id',
         'uom_id'
+    ];
+    protected $casts = [
+        'product_img' => 'array',
     ];
     public function productBrand(){
         return $this->belongsTo(ProductBrand::class);

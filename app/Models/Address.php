@@ -21,4 +21,5 @@ class Address extends Model
         return $this->belongsTo(Customer::class);
          // assuming Customer model has a foreign key 'customer_id'  // Eloquent Relationship
     }
+    
 }

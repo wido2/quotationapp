@@ -29,7 +29,7 @@ class ProductBrandResource extends Resource
     protected static ?string $model = ProductBrand::class;
     protected static ?string $navigationGroup  ='Product';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-check-badge';
 
     public static function form(Form $form): Form
     {

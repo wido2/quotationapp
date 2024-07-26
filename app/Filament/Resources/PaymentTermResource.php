@@ -21,7 +21,7 @@ class PaymentTermResource extends Resource
     protected static ?string $model = PaymentTerm::class;
     protected static ?string $navigationGroup  ='Setting';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
     public static function form(Form $form): Form
     {
@@ -37,7 +37,7 @@ class PaymentTermResource extends Resource
                 Toggle::make('is_active')
                 ->label('Active ')
                 ->default(true)
-                
+
             ]);
     }
 

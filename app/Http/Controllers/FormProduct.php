@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use Filament\Forms\Set;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ProductCategory;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
+use Illuminate\Database\Eloquent\Builder;
 
 class FormProduct extends Controller
 {
@@ -40,13 +43,18 @@ class FormProduct extends Controller
         ->searchable()
         ->preload()
         ->createOptionForm(FormProductBrand::formProductBrand())
-        ->relationship('productBrand','name'),
+        ->relationship('productBrand','name',
+            fn (Builder $query )=> $query->where('is_active',true)
+    
+    ),
 
         Select::make('product_category_id')
         ->searchable()
         ->preload()
         ->createOptionForm(FormProductCategory::getForm())
-        ->relationship('productCategory','name')
+        ->relationship('productCategory','name',
+            fn (Builder $query )=> $query->where('is_active',true)
+        )
         ,
         TextInput::make('price')
         ->required()
@@ -60,6 +68,16 @@ class FormProduct extends Controller
         ->required(),
         Textarea::make('description')
         ->required()
+        ->columnSpanFull(),
+        FileUpload::make('product_img')
+        ->directory('product_img')
+        // ->required()
+        ->multiple()
+        ->image()
+        ->imageEditor()
+        ->maxSize(2048)
+        ->maxFiles(5)
+        ->disk('s3')
         ->columnSpanFull(),
 
         Toggle::make('is_active')

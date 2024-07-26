@@ -13,10 +13,14 @@ use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Support\Number;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use function Laravel\Prompts\text;
 use Symfony\Polyfill\Intl\Idn\Idn;
 use Filament\Forms\Components\Grid;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\OrderNumber;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Support\Enums\Alignment;
 use Filament\Forms\Components\Section;
@@ -29,24 +33,30 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\ToggleButtons;
 use App\Filament\Resources\OrderResource\Pages;
+
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrderResource\RelationManagers;
-use Filament\Forms\Components\Hidden;
-use Filament\Infolists\Infolist;
-
-use function Laravel\Prompts\text;
 
 class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
     protected static ?string $navigationGroup  ='Sales Order';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                TextInput::make('order_no')
+                ->required()
+                ->label('Order Number')
+                ->readOnly()
+                ->default(
+                    OrderNumber::generate(Order::count() + 1)
+                )
+                ->maxLength(50)
+                ,
 
                 Select::make('customer_id')
                 ->relationship('customer','name')
@@ -71,7 +81,7 @@ class OrderResource extends Resource
                 ->preload()
                 ->searchable()
                 ->relationship('user','name'),
-            
+
 
                 ToggleButtons::make('status')
                 ->options([
@@ -191,6 +201,10 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('order_no')
+                ->searchable()
+                ->sortable(),
+
                 TextColumn::make('customer.name')
                 ->searchable()
                 ->sortable(),
