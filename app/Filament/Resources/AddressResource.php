@@ -22,6 +22,10 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AddressResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AddressResource\RelationManagers;
+use App\Http\Controllers\ApiLocation;
+use App\Http\Controllers\getCity;
+use App\Http\Controllers\getProvince;
+use Closure;
 use Filament\Forms\Components\ToggleButtons;
 
 class AddressResource extends Resource
@@ -45,11 +49,14 @@ class AddressResource extends Resource
                 ->required()
                 ->label('Address ')
                 ->maxLength(255),
-                TextInput::make('city')
+                Select::make('city')
                 ->label('City')
-                ->required(),
-                TextInput::make('state')
+                ->searchable()
+                ->options(getCity::getCity()),
+                Select::make('state')
                 ->label('State')
+                ->searchable()
+                ->options(getProvince::getProvince())
                 ->required(),
                 TextInput::make('country')
                 ->label('Country')
@@ -60,23 +67,31 @@ class AddressResource extends Resource
                 ->required(),
                 ToggleButtons::make('type')
                 ->options([
-                    'Home' => 'Home',
-                    'Office' => 'Office',
-                    'Work' => 'Work',
+                    'Home'=>'Home',
+                    'Office'=>'Office',
+                    'Invoice Address'=>'Invoice Address',
+                    'Delivery Address' => 'Delivery Address',
+                    'Other'=>'Other'
                 ])
                 ->required()
                 ->default('Office')
                 ->icons([
                     'Home' => 'heroicon-o-home',
-                    'Office' => 'heroicon-o-building-office',
-                    'Work' => 'heroicon-o-briefcase',
+                    'Office' => 'heroicon-o-building-office-2',
+                    'Invoice Address' => 'heroicon-o-document-currency-dollar',
+                    'Delivery Address' => 'heroicon-o-truck',
+                    'Other'=>'heroicon-o-map-pin'
+
                 ])
                 ->colors([
                     'Home' => 'primary',
                     'Office' => 'success',
-                    'Work' => 'warning',
-                ])
-                ->inline(),
+                    'Invoice Address' => 'warning',
+                    'Delivery Address' => 'info',
+                    'Other'=>'danger'
+                    ])
+                ->inline()
+                ->columnSpanFull(),
                 Toggle::make('is_default')
                 ->label('Is Default?')
                 ->required()
