@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -11,6 +12,8 @@ class Order extends Model
     protected $fillable = [
         'order_no',
         'customer_id',
+        'delivery_address',
+        'invoice_address',
         'expiration',
         'payment_term_id',
         'user_id',
@@ -32,12 +35,18 @@ class Order extends Model
          // assuming User model has a foreign key 'user_id'  // Eloquent Relationship
     }
     public function orderItems(){
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderItem::class,);
          // assuming OrderItem model has a foreign key 'order_id'  // Eloquent Relationship
     }
     public function product(){
         return $this->belongsTo(Product::class);
          // assuming Product model has a foreign key 'product_id'  // Eloquent Relationship
+    }
+
+
+    public function address():HasOne{
+        return $this->hasOne(Address::class,'id');
+         // assuming Address model has a foreign key 'order_id'  // Eloquent Relationship
     }
 
 }

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PajakResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PajakResource\RelationManagers;
+use App\Http\Controllers\formPajak;
 
 class PajakResource extends Resource
 {
@@ -32,18 +33,9 @@ class PajakResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(50),
-
-                TextInput::make('rate')
-                    ->required()
-                    ->numeric()
-                    ->maxValue(100),
-
-                Textarea::make('description')
-                ->columnSpanFull()
+              formPajak::getFormPajak()
             ]);
     }
 

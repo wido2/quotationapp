@@ -45,7 +45,7 @@ class FormProduct extends Controller
         ->createOptionForm(FormProductBrand::formProductBrand())
         ->relationship('productBrand','name',
             fn (Builder $query )=> $query->where('is_active',true)
-    
+
     ),
 
         Select::make('product_category_id')
@@ -65,6 +65,7 @@ class FormProduct extends Controller
         ->relationship('pajak','name')
         ->preload()
         ->searchable()
+        ->createOptionForm(formPajak::getFormPajak())
         ->required(),
         Textarea::make('description')
         ->required()
@@ -77,7 +78,7 @@ class FormProduct extends Controller
         ->imageEditor()
         ->maxSize(2048)
         ->maxFiles(5)
-        ->disk('s3')
+        // ->disk('local')
         ->columnSpanFull(),
 
         Toggle::make('is_active')

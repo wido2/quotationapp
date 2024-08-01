@@ -12,20 +12,14 @@ return new class extends Migration {
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
+            // $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->text('address');
             $table->string('city');
-
             $table->string('state');
             $table->string('country');
             $table->string('zip_code');
-            $table->enum('type',[
-                'Home'=>'Home',
-                'Office'=>'Office',
-                'Invoice Address'=>'Invoice Address',
-                'Delivery Address' => 'Delivery Address',
-                'Other'=>'Other'
-            ])->default('Office')->change();
+            $table->string('type');
             $table->boolean('is_default')->default(false);
             $table->timestamps();
         });

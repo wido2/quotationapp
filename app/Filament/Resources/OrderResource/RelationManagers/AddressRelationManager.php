@@ -1,44 +1,32 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\OrderResource\RelationManagers;
 
 use Filament\Forms;
+use Filament\Forms\Components\Hidden;
 use Filament\Tables;
-use App\Models\Address;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\AddressResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\AddressResource\RelationManagers;
-use App\Http\Controllers\ApiLocation;
-use App\Http\Controllers\GetCityController;
-use App\Http\Controllers\getProvince;
-use Closure;
 use Filament\Forms\Components\ToggleButtons;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
 
-class AddressResource extends Resource
+class AddressRelationManager extends RelationManager
 {
-    protected static ?string $model = Address::class;
-    protected static ?string $navigationGroup  ='Customer';
+    protected static string $relationship = 'address';
 
-    protected static ?string $navigationIcon = 'heroicon-o-map';
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
-
+                Hidden::make('order_id')
+                ->default(),
                 Select::make('customer_id')
                 ->required()
                 ->preload()
@@ -95,12 +83,14 @@ class AddressResource extends Resource
                 ->default(false),
 
 
+
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('id')
             ->columns([
                 TextColumn::make('customer.name')
                 ->searchable()
@@ -121,41 +111,23 @@ class AddressResource extends Resource
                 TextColumn::make('zip_code')
                 ->searchable()
                 ->sortable(),
-                TextColumn::make('type'),
                 ToggleColumn::make('is_default')
                 ->label('Default'),
-
             ])
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
-                ActionGroup::make([
-                    DeleteAction::make(),
-                    EditAction::make(),
-                    ViewAction::make(),
-                ])
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            // CustomerResource::class
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListAddresses::route('/'),
-            'create' => Pages\CreateAddress::route('/create'),
-            'edit' => Pages\EditAddress::route('/{record}/edit'),
-        ];
     }
 }
